@@ -74,9 +74,23 @@ int main(int argc, char **argv)
   {
     //2. ----------------------------- point queries -----------------------------
     std::vector<int> queries = generatePointQueries(data, data.size());
-
     auto start = std::chrono::high_resolution_clock::now();
+
     // query from zonemaps here
+    std::cout << "Total queries: " << queries.size() << std::endl;
+    for (int query : queries) {
+        bool found = zones.query(query);
+        std::vector<int>::iterator it;
+        it = find(data.begin(), data.end(), query);
+        if (found ^ (it != data.end())) {
+            std::cout << "Error" << std::endl;
+            std::cout << "Key is " << query << std::endl;
+            std::cout << "Found in query: " << found << std::endl;
+            std::cout << "Found in data: " << (it != data.end()) << std::endl;
+        }
+            
+    }
+
     auto stop = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
     unsigned long long point_query_time = duration.count();
