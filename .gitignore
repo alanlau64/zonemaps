@@ -1,0 +1,8 @@
+*.o
+*.txt
+*.dat
+
+.vscode/*
+
+main
+workloadgenerator
