@@ -50,6 +50,7 @@ void zonemap<T>::build ()
 template<typename T>
 bool zonemap<T>::query(T key)
 {
+    int i = 1;
     for (zone<T> z : zones) {
         // Loop through the zones to see if the key is contained in the range. 
         if (z.min <= key && z.max >= key) {
@@ -66,8 +67,12 @@ bool zonemap<T>::query(T key)
 template<typename T>
 std::vector<T> zonemap<T>::query(T low, T high)
 {
-    std::vector<T> result = new std::vector<T>();
+    std::vector<T> result;
+    // Loop through all zones.
     for (zone<T> z : zones) {
+        // If the maximum of a zone is greater than lower bound
+        // or the minimum of a zone is less than upper bound, 
+        // loop through the zone and add every qulified element to result. 
         if (z.min <= high || z.max >= low) 
             for (T element : z.elements)
                 if (element >= low && element <= high)

@@ -80,14 +80,16 @@ int main(int argc, char **argv)
     std::cout << "Total queries: " << queries.size() << std::endl;
     for (int query : queries) {
         bool found = zones.query(query);
-        std::vector<int>::iterator it;
-        it = find(data.begin(), data.end(), query);
-        if (found ^ (it != data.end())) {
-            std::cout << "Error" << std::endl;
-            std::cout << "Key is " << query << std::endl;
-            std::cout << "Found in query: " << found << std::endl;
-            std::cout << "Found in data: " << (it != data.end()) << std::endl;
-        }
+
+        // Check if the result is correct. 
+        // std::vector<int>::iterator it;
+        // it = find(data.begin(), data.end(), query);
+        // if (found ^ (it != data.end())) {
+        //     std::cout << "Error" << std::endl;
+        //     std::cout << "Key is " << query << std::endl;
+        //     std::cout << "Found in query: " << found << std::endl;
+        //     std::cout << "Found in data: " << (it != data.end()) << std::endl;
+        // }
             
     }
 
@@ -95,6 +97,11 @@ int main(int argc, char **argv)
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
     unsigned long long point_query_time = duration.count();
     std::cout << "Time taken to perform point queries from zonemap = " << point_query_time << " microseconds" << endl;
+    /*
+    Results:
+        1 million integers:
+            1% noise: Time taken to perform point queries from zonemap = 5414777423 microseconds
+    */
   }
   else if (test_case == "test_rq_1")
   {
@@ -102,6 +109,23 @@ int main(int argc, char **argv)
     auto start = std::chrono::high_resolution_clock::now();
     // range query from zonemaps here
     int n = data.size();
+    // Search between 10% and 20% of whole workload. 
+    int low = n / 10;
+    int high = n / 10 * 2;
+    std::vector<int> result = zones.query(low, high);
+
+    // Check if the result is correct. 
+    // std::cout << "Checking" << std::endl;
+    // for (int i = low; i <= high; i++) {
+    //     std::vector<int>::iterator itdata = find(data.begin(), data.end(), i);
+    //     std::vector<int>::iterator itres = find(result.begin(), result.end(), i);
+    //     if ((itres != result.end()) ^ (itdata != data.end())) {
+    //         std::cout << "Error" << std::endl;
+    //         std::cout << "Key is " << i << std::endl;
+    //         std::cout << "Found in query: " << (itres != result.end()) << std::endl;
+    //         std::cout << "Found in data: " << (itdata != data.end()) << std::endl;
+    //     }
+    // }
 
     auto stop = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
@@ -114,6 +138,10 @@ int main(int argc, char **argv)
     auto start = std::chrono::high_resolution_clock::now();
     // range query from zonemaps here
     int n = data.size();
+    // Search between 30% and 40% of whole workload. 
+    int low = n / 10 * 3;
+    int high = n / 10 * 4;
+    std::vector<int> result = zones.query(low, high);
 
     auto stop = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
@@ -126,6 +154,10 @@ int main(int argc, char **argv)
     auto start = std::chrono::high_resolution_clock::now();
     // range query from zonemaps here
     int n = data.size();
+    // Search between 50% and 60% of whole workload. 
+    int low = n / 10 * 5;
+    int high = n / 10 * 6;
+    std::vector<int> result = zones.query(low, high);
 
     auto stop = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
@@ -138,6 +170,10 @@ int main(int argc, char **argv)
     auto start = std::chrono::high_resolution_clock::now();
     // range query from zonemaps here
     int n = data.size();
+    // Search between 70% and 80% of whole workload. 
+    int low = n / 10 * 7;
+    int high = n / 10 * 8;
+    std::vector<int> result = zones.query(low, high);
 
     auto stop = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
