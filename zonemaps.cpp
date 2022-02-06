@@ -1,4 +1,5 @@
 #include "zonemaps.h"
+#include <algorithm>
 
 template<typename T>
 zonemap<T>::zonemap(std::vector<T> _elements, uint _num_elements_per_zone)
@@ -16,7 +17,6 @@ void zonemap<T>::build ()
     std::cout << "building" << std::endl;
     // Create the first zone and push it into zone list. 
     zone<T> current_zone;
-    zones.push_back(current_zone);
     current_zone.max = elements[0];
     current_zone.min = elements[0];
     current_zone.size = 0;
@@ -45,19 +45,19 @@ void zonemap<T>::build ()
     }
     // Save the last zone into zonemap. 
     zones.push_back(current_zone);
+    // Sort each zone at last. 
+    sort_elements();
 }
 
 template<typename T>
 bool zonemap<T>::query(T key)
 {
-    int i = 1;
+    // Loop through the zones to see if the key is contained in the range. 
     for (zone<T> z : zones) {
-        // Loop through the zones to see if the key is contained in the range. 
         if (z.min <= key && z.max >= key) {
-            // If so, loop through the zone. If the key is contained, return true. 
-            for (T element : z.elements) 
-                if (element == key) 
-                    return true;
+            // If so, apply binary search in the zone. And if the key is contained, return true. 
+            if (std::binary_search(z.elements.begin(), z.elements.end(), key))
+                return true;
         }
     }
     // If the key is not contained in all zones, return false.
@@ -79,4 +79,13 @@ std::vector<T> zonemap<T>::query(T low, T high)
                     result.push_back(element);
     }
     return result;
+}
+
+// Sort elements in each zone to apply binary search. 
+template<typename T>
+void zonemap<T>::sort_elements()
+{
+    for (zone<T> z : zones) {
+        std::sort(z.elements.begin(), z.elements.end());
+    }
 }

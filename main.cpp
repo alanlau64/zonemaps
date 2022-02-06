@@ -77,7 +77,6 @@ int main(int argc, char **argv)
     auto start = std::chrono::high_resolution_clock::now();
 
     // query from zonemaps here
-    std::cout << "Total queries: " << queries.size() << std::endl;
     for (int query : queries) {
         bool found = zones.query(query);
 
@@ -100,7 +99,7 @@ int main(int argc, char **argv)
     /*
     Results:
         1 million integers:
-            1% noise: Time taken to perform point queries from zonemap = 5414777423 microseconds
+            1% noise: Time taken to perform point queries from zonemap = 5257214872 microseconds
     */
   }
   else if (test_case == "test_rq_1")
