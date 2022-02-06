@@ -99,7 +99,10 @@ int main(int argc, char **argv)
     /*
     Results:
         1 million integers:
-            1% noise: Time taken to perform point queries from zonemap = 5257214872 microseconds
+            0% noise: Time taken to perform point queries from zonemap = 150804166 microseconds
+            1% noise: Time taken to perform point queries from zonemap = 157682954 microseconds
+            5% noise: Time taken to perform point queries from zonemap = 199889070 microseconds
+            25% noise: Time taken to perform point queries from zonemap = 270700359 microseconds
     */
   }
   else if (test_case == "test_rq_1")
